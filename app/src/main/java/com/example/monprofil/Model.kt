@@ -162,8 +162,8 @@ data class ModelCrewSerie(
     val profile_path: Any = Any()
 )
 
-//Date de naissance
-data class ModelDateDeNaissance(
+//ModelActeur
+data class ModelModelActeur(
     val adult: Boolean = false,
     val also_known_as: List<String> = listOf(),
     val biography: String = "",

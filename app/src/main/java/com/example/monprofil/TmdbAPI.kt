@@ -38,5 +38,5 @@ interface TmdbAPI {
     GET("person/{idActeur}")
     suspend fun GetActeur(@Path("idActeur") idActeur: Int,
                        @Query("api_key") api_key: String,
-                       @Query("language") language: String): ModelDateDeNaissance*/
+                       @Query("language") language: String): ModelActeur*/
 }

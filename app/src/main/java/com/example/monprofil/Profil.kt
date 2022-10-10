@@ -99,7 +99,7 @@ fun Lien(navController: NavController){
         }
     }
     Spacer(modifier = Modifier.size(70.dp))
-    Button(onClick  = { navController.navigate("films") },
+    Button(onClick  = { navController.navigate("barre") },
             contentPadding = PaddingValues(
                 start = 20.dp,
                 top = 12.dp,
