@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun Profil(windowSizeClass: WindowSizeClass, navController: NavController){
+fun Profil(navController: NavController, windowSizeClass: WindowSizeClass){
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             Column(
                 Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceEvenly,
+                verticalArrangement = Arrangement .SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(contentAlignment = Alignment.TopCenter) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -38,19 +38,18 @@ fun Profil(windowSizeClass: WindowSizeClass, navController: NavController){
             }
         }
         else -> {
-            Row(
-                Modifier.fillMaxSize(),
+            Row(modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically) {
-                Box(contentAlignment = Alignment.TopCenter) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Presentation()
+                    Box(contentAlignment = Alignment.TopCenter) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Presentation()
+                        }
                     }
-                }
-                Box(contentAlignment = Alignment.TopCenter) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Lien(navController)
+                    Box(contentAlignment = Alignment.TopCenter) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Lien(navController)
+                        }
                     }
-                }
             }
         }
     }
@@ -59,26 +58,24 @@ fun Profil(windowSizeClass: WindowSizeClass, navController: NavController){
 @Composable
 fun Presentation(){
     Spacer(modifier = Modifier.size(40.dp))
-    Image(
-        painterResource(R.drawable.photo), contentDescription = "Ma photo de profil",
+    Image(painterResource(R.drawable.photo),
+        contentDescription = "Ma photo de profil",
         modifier = Modifier
             .clip(CircleShape)
             .size(150.dp)
             .border(1.dp, Color.Black, CircleShape)
     )
     Spacer(modifier = Modifier.size(20.dp))
-    Text(
-        text = "Aurore BIADOS",
+    Text(text = "Aurore BIADOS",
         fontSize = 30.sp
     )
     Spacer(modifier = Modifier.size(15.dp))
-    Text(
-        text = "Étudiante en 3ème année du cycle\ningénieur\"Informatique pour la Santé\"",
+    Text(text = "Étudiante en 3ème année du cycle\ningénieur\"Informatique pour la Santé\"",
         textAlign = TextAlign.Center
     )
-    Text(
-        text = "École d'ingénieur ISIS - INU Champollion",
-        fontStyle = FontStyle.Italic
+    Text(text = "École d'ingénieur ISIS - INU Champollion",
+        fontStyle = FontStyle.Italic,
+        modifier = Modifier.padding(horizontal = 20.dp)
     )
     Spacer(modifier = Modifier.size(50.dp))
 }
@@ -87,8 +84,7 @@ fun Presentation(){
 fun Lien(navController: NavController){
     Column() {
         Row() {
-            Image(
-                //painterResource(R.drawable.mail), contentDescription = "Mon adresse-mail",
+            Image(//painterResource(R.drawable.mail), contentDescription = "Mon adresse-mail",
                 imageVector = Icons.Filled.MailOutline,
                 contentDescription = "Mon adresse-mail",
                 modifier = Modifier.size(25.dp)
@@ -96,91 +92,21 @@ fun Lien(navController: NavController){
             Text(text = "  aurore.biados@etud.univ-jfc.fr")
         }
         Row(){
-            Image(
-                painterResource(R.drawable.linkedin), contentDescription = "Mon LinkedIn",
+            Image(painterResource(R.drawable.linkedin), contentDescription = "Mon LinkedIn",
                 modifier = Modifier.size(25.dp)
             )
             Text(text = "  https://fr.linkedin.com/in/aurore-biados")
         }
     }
     Spacer(modifier = Modifier.size(70.dp))
-    Button(
-        onClick  = {navController.navigate("films")},
-        contentPadding = PaddingValues(
-            start = 20.dp,
-            top = 12.dp,
-            end = 20.dp,
-            bottom = 12.dp,
-        )
+    Button(onClick  = { navController.navigate("films") },
+            contentPadding = PaddingValues(
+                start = 20.dp,
+                top = 12.dp,
+                end = 20.dp,
+                bottom = 12.dp,
+            )
     ) {
         Text("Démarrer")
     }
 }
-
-/*@Composable
-fun Photo() {
-    Image(
-        painterResource(R.drawable.photo), contentDescription = "Ma photo de profil",
-        modifier = Modifier
-            .clip(CircleShape)
-            .size(150.dp)
-            .border(1.dp, Color.Black, CircleShape)
-    )
-}
-
-@Composable
-fun Nom() {
-    Text(
-        text = "Aurore BIADOS",
-        fontSize = 30.sp
-    )
-}
-
-@Composable
-fun Profil() {
-    Text(
-        text = "Étudiante en 3ème année du cycle\ningénieur\"Informatique pour la Santé\"",
-        textAlign = TextAlign.Center
-    )
-    Text(
-        text = "École d'ingénieur ISIS - INU Champollion",
-        fontStyle = FontStyle.Italic
-    )
-}
-
-@Composable
-fun Lien() {
-    Column() {
-        Row() {
-            Image(
-                //painterResource(R.drawable.mail), contentDescription = "Mon adresse-mail",
-                imageVector = Icons.Filled.MailOutline,
-                contentDescription = "Mon adresse-mail",
-                modifier = Modifier.size(25.dp)
-            )
-            Text(text = "  aurore.biados@etud.univ-jfc.fr")
-        }
-        Row(){
-            Image(
-                painterResource(R.drawable.linkedin), contentDescription = "Mon LinkedIn",
-                modifier = Modifier.size(25.dp)
-            )
-            Text(text = "  https://fr.linkedin.com/in/aurore-biados")
-        }
-    }
-}
-
-@Composable
-fun Bouton() {
-    Button(
-        onClick  = {},
-        contentPadding = PaddingValues(
-            start = 20.dp,
-            top = 12.dp,
-            end = 20.dp,
-            bottom = 12.dp,
-        )
-    ) {
-        Text("Démarrer")
-    }
-}*/
