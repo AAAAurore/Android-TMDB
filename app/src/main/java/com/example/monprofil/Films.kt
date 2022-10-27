@@ -27,14 +27,15 @@ import java.util.*
 @Composable
 fun Films(navController: NavController,
           viewmodel: MainViewModel,
-          windowSizeClass: WindowSizeClass) {
+          windowSizeClass: WindowSizeClass
+) {
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                TousLesFilms(navController, viewmodel, windowSizeClass, 2);
+                TousLesFilms(navController, viewmodel, 2);
             }
         }
         else -> {
@@ -42,7 +43,7 @@ fun Films(navController: NavController,
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly) {
-                TousLesFilms(navController, viewmodel, windowSizeClass, 3);
+                TousLesFilms(navController, viewmodel, 3);
             }
         }
     }
@@ -53,37 +54,37 @@ fun Films(navController: NavController,
 @Composable
 fun TousLesFilms(navController: NavController,
                  viewmodel: MainViewModel,
-                 windowSizeClass: WindowSizeClass,
                  nbColonne: Int
 ){
     val films by viewmodel.movies.collectAsState();
     val rechercheEtat by viewmodel.searchClickEtat;
     val recherche by viewmodel.searchTextEtat;
-    var bottom: Dp = 0.dp;
-    val taille: Modifier;
+    var topBottom: Dp = 0.dp;
+    var taille: Modifier = Modifier;
 
     when(rechercheEtat){
         SearchClickEtat.CLOSED -> {
-            if(films.isEmpty() && recherche.isEmpty()){
+            if(films.isEmpty() || recherche.isEmpty()){
                 viewmodel.getFilmsInitiaux();
-                bottom = AppBarDefaults.BottomAppBarElevation;
+            }
+            if(nbColonne == 2) {
+                topBottom = AppBarDefaults.BottomAppBarElevation;
+                taille = Modifier.padding(bottom = 65.dp);
+            }
+            else{
+                topBottom = 0.dp;
+                taille = Modifier.padding(start = 75.dp);
             }
         }
         SearchClickEtat.OPENED -> {
             if(recherche.isNotEmpty()){
                 viewmodel.getFilmsSearch(recherche);
             }
-            bottom = 0.dp;
+            if(nbColonne == 3) {
+                taille = Modifier.padding(top = 65.dp);
+            }
         }
     }
-
-    if(nbColonne == 2) {
-        taille = Modifier.fillMaxWidth();
-    }
-    else{
-        taille = Modifier.padding(start = 75.dp);
-    }
-
 
     LazyVerticalGrid(cells = GridCells.Fixed(nbColonne),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -99,7 +100,7 @@ fun TousLesFilms(navController: NavController,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp),
-                elevation = bottom,
+                elevation = topBottom,
                 onClick = {
                     viewmodel.updateFilm(film.id);
                     viewmodel.updateDateFilmSerie(formatDate);
@@ -108,7 +109,7 @@ fun TousLesFilms(navController: NavController,
                 }
             ) {
                 Column() {
-                    if (poster != null) {
+                    if (film.poster_path != null) {
                         Image(
                             painter = rememberAsyncImagePainter(poster),
                             contentDescription = "Poster",

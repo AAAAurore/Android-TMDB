@@ -1,7 +1,6 @@
 package com.example.monprofil
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -31,14 +30,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.flowlayout.FlowRow
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
 fun Serie(navController: NavController,
           viewmodel: MainViewModel,
-          windowSizeClass: WindowSizeClass) {
+          windowSizeClass: WindowSizeClass
+) {
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             Column(
@@ -59,7 +57,6 @@ fun Serie(navController: NavController,
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition", "SimpleDateFormat")
 @Composable
 fun DescriptionSerie(navController: NavController,
@@ -96,7 +93,7 @@ fun DescriptionSerie(navController: NavController,
                 .fillMaxWidth()
                 .wrapContentHeight()
         );
-        if (backdrop != null) {
+        if (serie.backdrop_path != null) {
             Image(
                 painter = rememberAsyncImagePainter(backdrop),
                 contentDescription = "Backdrop",
@@ -108,7 +105,7 @@ fun DescriptionSerie(navController: NavController,
         }
         Row() {
             Column() {
-                if (poster != null) {
+                if (serie.poster_path != null) {
                     Image(
                         painter = rememberAsyncImagePainter(poster),
                         contentDescription = "Poster",
@@ -175,7 +172,11 @@ fun ListeGenres(serie: ModelSerieOnly){
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CartesActeurs(viewmodel: MainViewModel, navController: NavController, acteur: ModelCastDistributionSerie, nbColonne: Int){
+fun CartesActeurs(viewmodel: MainViewModel,
+                  navController: NavController,
+                  acteur: ModelCastDistributionSerie,
+                  nbColonne: Int
+){
     val profile = "https://image.tmdb.org/t/p/w500" + acteur.profile_path;
     val taille: Modifier;
 
@@ -196,7 +197,7 @@ fun CartesActeurs(viewmodel: MainViewModel, navController: NavController, acteur
         }
     ) {
         Column() {
-            if (profile != null) {
+            if (acteur.profile_path != null) {
                 Image(
                     painter = rememberAsyncImagePainter(profile),
                     contentDescription = "Profile",

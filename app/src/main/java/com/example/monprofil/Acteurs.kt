@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.*
-import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
@@ -20,9 +19,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Composable
 fun Acteurs(navController: NavController,
@@ -58,28 +54,31 @@ fun TousLesActeurs(navController: NavController,
     val acteurs by viewmodel.credits.collectAsState();
     val rechercheEtat by viewmodel.searchClickEtat;
     val recherche by viewmodel.searchTextEtat;
-    var bottom: Dp = 0.dp;
-    val taille: Modifier;
+    var topBottom: Dp = 0.dp;
+    var taille: Modifier = Modifier;
 
     when(rechercheEtat){
         SearchClickEtat.CLOSED -> {
-            if(acteurs.isEmpty() && recherche.isEmpty()){
+            if(acteurs.isEmpty() || recherche.isEmpty()){
                 viewmodel.getActeurs();
-                bottom = AppBarDefaults.BottomAppBarElevation;
+            }
+            if(nbColonne == 2) {
+                topBottom = AppBarDefaults.BottomAppBarElevation;
+                taille = Modifier.padding(bottom = 65.dp);
+            }
+            else{
+                topBottom = 0.dp;
+                taille = Modifier.padding(start = 75.dp);
             }
         }
         SearchClickEtat.OPENED -> {
             if(recherche.isNotEmpty()){
                 viewmodel.getActeursSearch(recherche);
             }
-            bottom = 0.dp;
+            if(nbColonne == 3) {
+                taille = Modifier.padding(top = 65.dp);
+            }
         }
-    }
-
-    if (nbColonne == 2) {
-        taille = Modifier.fillMaxWidth();
-    } else {
-        taille = Modifier.padding(start = 75.dp);
     }
 
     LazyVerticalGrid(
@@ -95,7 +94,7 @@ fun TousLesActeurs(navController: NavController,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp),
-                elevation = bottom,
+                elevation = topBottom,
                 onClick = {
                     viewmodel.updateActeur(acteur.id);
                     viewmodel.updateFilmSerieActeurClickEtat("acteur")
@@ -103,7 +102,7 @@ fun TousLesActeurs(navController: NavController,
                 }
             ) {
                 Column() {
-                    if(poster != null){
+                    if(acteur.profile_path != null){
                         Image(
                             painter = rememberAsyncImagePainter(poster),
                             contentDescription = "Poster",

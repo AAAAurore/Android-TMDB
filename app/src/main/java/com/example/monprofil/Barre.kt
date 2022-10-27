@@ -32,7 +32,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun NavigationGraph(navHostController: NavHostController,
                     viewmodel: MainViewModel,
-                    windowSizeClass: WindowSizeClass) {
+                    windowSizeClass: WindowSizeClass
+) {
     NavHost(navHostController, startDestination = Boutons.Films.route) {
         composable(Boutons.Films.route) {
             Films(navHostController, viewmodel, windowSizeClass);
@@ -244,7 +245,9 @@ fun TopBarSearch( text: String,
 }
 
 @Composable
-fun BottomBar(navController: NavController, viewmodel: MainViewModel){
+fun BottomBar(navController: NavController,
+              viewmodel: MainViewModel
+){
     val searchClickEtat by viewmodel.searchClickEtat;
     val filmSerieActeurClickEtat by viewmodel.filmSerieActeurClickEtat;
 

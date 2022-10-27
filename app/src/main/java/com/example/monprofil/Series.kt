@@ -27,14 +27,15 @@ import java.util.*
 @Composable
 fun Series(navController: NavController,
            viewmodel: MainViewModel,
-           windowSizeClass: WindowSizeClass) {
+           windowSizeClass: WindowSizeClass
+) {
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                ToutesLesSeries(navController, viewmodel, windowSizeClass, 2);
+                ToutesLesSeries(navController, viewmodel, 2);
             }
         }
         else -> {
@@ -42,7 +43,7 @@ fun Series(navController: NavController,
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly) {
-                ToutesLesSeries(navController, viewmodel, windowSizeClass, 3);
+                ToutesLesSeries(navController, viewmodel, 3);
             }
         }
     }
@@ -53,35 +54,36 @@ fun Series(navController: NavController,
 @Composable
 fun ToutesLesSeries(navController: NavController,
                     viewmodel: MainViewModel,
-                    windowSizeClass: WindowSizeClass,
                     nbColonne: Int
 ) {
     val series by viewmodel.tvs.collectAsState();
     val rechercheEtat by viewmodel.searchClickEtat;
     val recherche by viewmodel.searchTextEtat;
-    var bottom: Dp = 0.dp;
-    val taille: Modifier;
+    var topBottom: Dp = 0.dp;
+    var taille: Modifier = Modifier;
 
     when(rechercheEtat){
         SearchClickEtat.CLOSED -> {
-            if(series.isEmpty() && recherche.isEmpty()){
+            if(series.isEmpty() || recherche.isEmpty()){
                 viewmodel.getSeriesInitiaux();
-                bottom = AppBarDefaults.BottomAppBarElevation;
+            }
+            if(nbColonne == 2) {
+                topBottom = AppBarDefaults.BottomAppBarElevation;
+                taille = Modifier.padding(bottom = 65.dp);
+            }
+            else{
+                topBottom = 0.dp;
+                taille = Modifier.padding(start = 75.dp);
             }
         }
         SearchClickEtat.OPENED -> {
             if(recherche.isNotEmpty()){
                 viewmodel.getSeriesSearch(recherche);
             }
-            bottom = 0.dp;
+            if(nbColonne == 3) {
+                taille = Modifier.padding(top = 65.dp);
+            }
         }
-    }
-
-    if(nbColonne == 2) {
-        taille = Modifier.fillMaxWidth();
-    }
-    else {
-        taille = Modifier.padding(start = 75.dp);
     }
 
     LazyVerticalGrid(cells = GridCells.Fixed(nbColonne),
@@ -98,7 +100,7 @@ fun ToutesLesSeries(navController: NavController,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp),
-                elevation = bottom,
+                elevation = topBottom,
                 onClick = {
                     viewmodel.updateSerie(serie.id);
                     viewmodel.updateDateFilmSerie(formatDate);
@@ -107,7 +109,7 @@ fun ToutesLesSeries(navController: NavController,
                 }
             ) {
                 Column() {
-                    if (poster != null) {
+                    if (serie.poster_path != null) {
                         Image(
                             painter = rememberAsyncImagePainter(poster),
                             contentDescription = "Poster",

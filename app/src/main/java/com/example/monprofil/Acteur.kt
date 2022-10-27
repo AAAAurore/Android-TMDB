@@ -3,7 +3,6 @@ package com.example.monprofil
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -22,19 +21,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import java.util.*
 
 @Composable
 fun Acteur(navController: NavController,
-         viewmodel: MainViewModel,
-         windowSizeClass: WindowSizeClass) {
+           viewmodel: MainViewModel,
+           windowSizeClass: WindowSizeClass
+) {
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                DescriptionActeur(navController, viewmodel, 2);
+                DescriptionActeur(viewmodel, 2);
             }
         }
         else -> {
@@ -42,27 +41,44 @@ fun Acteur(navController: NavController,
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly) {
-                DescriptionActeur(navController, viewmodel, 3);
+                DescriptionActeur(viewmodel, 3);
             }
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition", "SimpleDateFormat")
 @Composable
-fun DescriptionActeur(navController: NavController,
-                    viewmodel: MainViewModel,
+fun DescriptionActeur(viewmodel: MainViewModel,
                     nbColonne: Int
 ) {
     val acteur: ModelActeurOnly by viewmodel.actor.collectAsState();
     val idActeur by viewmodel.acteur;
+    var departement = acteur.known_for_department;
     val taille: Modifier;
     val scrollState = rememberScrollState(0);
     val profile = "https://image.tmdb.org/t/p/w500" + acteur.profile_path;
     val genre = acteur.gender;
     val debutNe: String;
     val debutDecede: String;
+
+    if(departement != null){
+        if(departement == "Acting")  departement = "Interprétation";
+        if(departement == "Actors")  departement = "Artistes";
+        if(departement == "Art")  departement = "Artistique";
+        if(departement == "Camera")  departement = "Image";
+        if(departement == "Costume & Make-Up")  departement = "Costumes et maquillage";
+        if(departement == "Creator")  departement = "Création";
+        if(departement == "Crew")  departement = "Équipe technique";
+        if(departement == "Directing")  departement = "Réalisation";
+        if(departement == "Editing")  departement = "Montage";
+        if(departement == "Lighting")  departement = "Éclairage";
+        if(departement == "Production")  departement = "Production";
+        if(departement == "Sound")  departement = "Son";
+        if(departement == "Visual Effects")  departement = "Effets visuels";
+        if(departement == "Writing")  departement = "Écriture";
+    }
+
     //La date fait crasher l'application
     /*viewmodel.getActeurDateDeNaissance(idActeur);
     viewmodel.getActeurDateDeDeces(idActeur);
@@ -110,7 +126,7 @@ fun DescriptionActeur(navController: NavController,
         .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (profile != null) {
+        if (acteur.profile_path != null) {
             Image(
                 painter = rememberAsyncImagePainter(profile),
                 contentDescription = "Poster",
@@ -126,7 +142,7 @@ fun DescriptionActeur(navController: NavController,
             textAlign = TextAlign.Center
         );
         Text(
-            text = acteur.known_for_department,
+            text = departement,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Italic,
             textAlign = TextAlign.Center
@@ -149,7 +165,8 @@ fun DescriptionActeur(navController: NavController,
                         append("à " + acteur.place_of_birth);
                     }
                 }
-            }
+            },
+                textAlign = TextAlign.Center
             );
             Spacer(modifier = Modifier.size(10.dp));
         }
@@ -181,17 +198,18 @@ fun ListeAussiConnuComme(acteur: ModelActeurOnly, genre: Int){
         );
         (listeAaussiConnuComme).forEach() { surnom ->
             Text(text =
-            buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(fontStyle = FontStyle.Italic
-                    )
-                ) {
-                    append(surnom);
-                    if (listeAaussiConnuComme.last() != surnom) {
-                        append(", ");
+                buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(fontStyle = FontStyle.Italic
+                        )
+                    ) {
+                        append(surnom);
+                        if (listeAaussiConnuComme.last() != surnom) {
+                            append(", ");
+                        }
                     }
                 }
-            }
-            )}
+            )
+        }
     }
 }
