@@ -17,16 +17,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-import com.example.monprofil.ui.theme.MonProfilTheme
-
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            val viewmodel: MainViewModel by viewModels()
-            val windowSizeClass = calculateWindowSizeClass(this)
+            val navController = rememberNavController();
+            val viewmodel: MainViewModel by viewModels();
+            val windowSizeClass = calculateWindowSizeClass(this);
             when (windowSizeClass.widthSizeClass) {
                 WindowWidthSizeClass.Compact -> {
                     Column(
@@ -37,19 +35,28 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = "profil"){
                             composable("profil"){
-                                Profil(navController, windowSizeClass)
+                                Profil(navController, windowSizeClass);
                             }
                             composable( "films") {
-                                Films(navController, viewmodel, windowSizeClass)
+                                Films(navController, viewmodel, windowSizeClass);
                             }
                             composable( "series") {
-                                Series(navController, viewmodel, windowSizeClass)
+                                Series(navController, viewmodel, windowSizeClass);
                             }
                             composable( "acteurs") {
-                                Acteurs(navController, viewmodel, windowSizeClass)
+                                Acteurs(navController, viewmodel, windowSizeClass);
                             }
                             composable( "barre") {
-                                Barre(navController, viewmodel, windowSizeClass, 2)
+                                Barre(viewmodel, windowSizeClass, 2);
+                            }
+                            composable( "film") {
+                                Film(navController, viewmodel, windowSizeClass);
+                            }
+                            composable( "serie") {
+                                Serie(navController, viewmodel, windowSizeClass);
+                            }
+                            composable( "acteur") {
+                                Acteur(navController, viewmodel, windowSizeClass);
                             }
                         }
                     }
@@ -63,19 +70,25 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = "profil"){
                             composable("profil"){
-                                Profil(navController, windowSizeClass)
+                                Profil(navController, windowSizeClass);
                             }
                             composable( "films") {
-                                Films(navController, viewmodel, windowSizeClass)
+                                Films(navController, viewmodel, windowSizeClass);
                             }
                             composable( "series") {
-                                Series(navController, viewmodel, windowSizeClass)
+                                Series(navController, viewmodel, windowSizeClass);
                             }
                             composable( "acteurs") {
-                                Acteurs(navController, viewmodel, windowSizeClass)
+                                Acteurs(navController, viewmodel, windowSizeClass);
                             }
                             composable( "barre") {
-                                Barre(navController, viewmodel, windowSizeClass, 3)
+                                Barre(viewmodel, windowSizeClass, 3);
+                            }
+                            composable( "film") {
+                                Film(navController, viewmodel, windowSizeClass);
+                            }
+                            composable( "serie") {
+                                Serie(navController, viewmodel, windowSizeClass);
                             }
                         }
                     }
