@@ -1,10 +1,8 @@
 package com.example.monprofil
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AppBarDefaults
@@ -61,7 +59,8 @@ fun Serie(navController: NavController,
 @Composable
 fun DescriptionSerie(navController: NavController,
                      viewmodel: MainViewModel,
-                     nbColonne: Int) {
+                     nbColonne: Int
+) {
     val serie:ModelSerieOnly by viewmodel.tv.collectAsState();
     val idSerie by viewmodel.serie;
     val taille: Modifier;
@@ -115,7 +114,7 @@ fun DescriptionSerie(navController: NavController,
                     );
                 };
             }
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column() {
                 Text(text = date,
                     color = Color.Gray
                 );
@@ -133,12 +132,14 @@ fun DescriptionSerie(navController: NavController,
         Spacer(modifier = Modifier.size(5.dp));
         Text(text = serie.overview);
         Spacer(modifier = Modifier.size(10.dp));
-        Text(
-            text = "Têtes d'affiche",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Left
-        );
+        if(acteursSerie.isNotEmpty()){
+            Text(
+                text = "Têtes d'affiche",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left
+            );
+        }
         Spacer(modifier = Modifier.size(5.dp));
         FlowRow(modifier = Modifier.align(Alignment.CenterHorizontally)){
             (acteursSerie).forEach() { acteur ->

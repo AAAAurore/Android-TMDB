@@ -20,8 +20,6 @@ class MainViewModel : ViewModel() {
     val movie = MutableStateFlow(ModelFilmOnly());
     val tv = MutableStateFlow(ModelSerieOnly());
     val actor = MutableStateFlow(ModelActeurOnly());
-    val dateNaissance = MutableStateFlow(String());
-    val dateDeces = MutableStateFlow(String());
     val creditsMovie = MutableStateFlow<List<ModelCastDistributionFilm>>(listOf());
     val creditsTv = MutableStateFlow<List<ModelCastDistributionSerie>>(listOf());
 
@@ -103,22 +101,6 @@ class MainViewModel : ViewModel() {
     fun getActeur(idActeur: Int){
         viewModelScope.launch {
             actor.value = service.GetActeur(idActeur, api_key, language)
-        }
-    }
-
-    fun getActeurDateDeNaissance(idActeur: Int){
-        viewModelScope.launch {
-            val date = SimpleDateFormat("yyyy-MM-dd").parse(service.GetActeur(idActeur, api_key, language).birthday);
-            val formatDate = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(date);
-            dateNaissance.value = formatDate
-        }
-    }
-
-    fun getActeurDateDeDeces(idActeur: Int){
-        viewModelScope.launch {
-            val date = SimpleDateFormat("yyyy-MM-dd").parse(service.GetActeur(idActeur, api_key, language).deathday);
-            val formatDate = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(date);
-            dateDeces.value = formatDate
         }
     }
 

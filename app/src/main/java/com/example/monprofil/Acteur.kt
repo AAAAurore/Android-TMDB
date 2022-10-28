@@ -79,24 +79,9 @@ fun DescriptionActeur(viewmodel: MainViewModel,
         if(departement == "Writing")  departement = "Écriture";
     }
 
-    //La date fait crasher l'application
-    /*viewmodel.getActeurDateDeNaissance(idActeur);
-    viewmodel.getActeurDateDeDeces(idActeur);
-    val dateNaissance:String by viewmodel.dateNaissance.collectAsState();
-    val dateDeces:String by viewmodel.dateDeces.collectAsState();*/
-
-    /*viewmodel.updateDateActeurNaissance(acteur.birthday);
-    viewmodel.updateDateActeurDeces(acteur.deathday);
-    val dateNaissance by viewmodel.dateActeurNaissance;
-    val dateDeces by viewmodel.dateActeurDeces;*/
-
-    /*val dateNe = SimpleDateFormat("yyyy-MM-dd").parse(acteur.birthday);
-    val formatDateNe = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateNe);
-    val dateDecede = SimpleDateFormat("yyyy-MM-dd").parse(acteur.deathday);
-    val formatDateDecede = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateDecede);*/
-
     val dateNaissance = acteur.birthday;
     val dateDeces = acteur.deathday;
+
     viewmodel.getActeur(idActeur);
 
     if(nbColonne == 3) {
@@ -150,6 +135,9 @@ fun DescriptionActeur(viewmodel: MainViewModel,
         ListeAussiConnuComme(acteur, genre);
         Spacer(modifier = Modifier.size(10.dp));
         if(acteur.birthday != null || acteur.place_of_birth != null){
+            /*//La date fait crasher l'application
+            val dateN = SimpleDateFormat("yyyy-MM-dd").parse(acteur.birthday);
+            val dateNaissance = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateN);*/
             Text(text = debutNe +
                     buildAnnotatedString {
                 withStyle(
@@ -171,6 +159,9 @@ fun DescriptionActeur(viewmodel: MainViewModel,
             Spacer(modifier = Modifier.size(10.dp));
         }
         if(acteur.deathday != null) {
+            /*//La date fait crasher l'application
+            val dateD = SimpleDateFormat("yyyy-MM-dd").parse(acteur.deathday);
+            val dateDeces = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateD);*/
             Text(
                 text = debutDecede + dateDeces,
                 textAlign = TextAlign.Center
