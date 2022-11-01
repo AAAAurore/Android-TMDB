@@ -85,9 +85,9 @@ fun Barre(viewmodel: MainViewModel,
         Scaffold(topBar = {
             AppTopBar(searchClickEtat = searchClickEtat,
                 searchTextEtat = searchTextEtat,
-                onTextChange = { viewmodel.updateSearchTextEtat(it); },
+                onTextChange = { viewmodel.updateSearchTextEtat(it, false); },
                 onClickClose = {
-                    viewmodel.updateSearchTextEtat("");
+                    viewmodel.updateSearchTextEtat("", false);
                     viewmodel.updateSearchClickEtat(SearchClickEtat.CLOSED);
                     viewmodel.updateFilmSerieActeurClickEtat(bottomSelected);
                     if(bottomSelected == "films"){
@@ -100,7 +100,7 @@ fun Barre(viewmodel: MainViewModel,
                         viewmodel.getActeurs();
                     }
                 },
-                onClickSearch = { Log.d("Recherche en cours", it); },
+                onClickSearch = { viewmodel.updateSearchTextEtat(it, true); },
                 onSearchTriggered = {
                     viewmodel.updateSearchClickEtat(SearchClickEtat.OPENED);
                     viewmodel.updateFilmSerieActeurClickEtat(navBackStackEntry?.destination?.route);
@@ -123,12 +123,12 @@ fun Barre(viewmodel: MainViewModel,
             SearchFlottant(navController = navController,
                 searchClickEtat = searchClickEtat,
                 searchTextEtat = searchTextEtat,
-                onTextChange = { viewmodel.updateSearchTextEtat(it); },
+                onTextChange = { viewmodel.updateSearchTextEtat(it, false); },
                 onClickClose = {
-                    viewmodel.updateSearchTextEtat("");
+                    viewmodel.updateSearchTextEtat("", false);
                     viewmodel.updateSearchClickEtat(SearchClickEtat.CLOSED);
                 },
-                onClickSearch = { Log.d("Recherche en cours", it); },
+                onClickSearch = { viewmodel.updateSearchTextEtat(it, true); },
                 onSearchTriggered = {
                     viewmodel.updateSearchClickEtat(SearchClickEtat.OPENED);
                                     },

@@ -59,6 +59,7 @@ fun ToutesLesSeries(navController: NavController,
     val series by viewmodel.tvs.collectAsState();
     val rechercheEtat by viewmodel.searchClickEtat;
     val recherche by viewmodel.searchTextEtat;
+    val rechercheOK by viewmodel._searchTextEtatRecherche;
     var topBottom: Dp = 0.dp;
     var taille: Modifier = Modifier;
 
@@ -77,7 +78,7 @@ fun ToutesLesSeries(navController: NavController,
             }
         }
         SearchClickEtat.OPENED -> {
-            if(recherche.isNotEmpty()){
+            if(recherche.isNotEmpty() && rechercheOK){
                 viewmodel.getSeriesSearch(recherche);
             }
             if(nbColonne == 3) {

@@ -59,6 +59,7 @@ fun TousLesFilms(navController: NavController,
     val films by viewmodel.movies.collectAsState();
     val rechercheEtat by viewmodel.searchClickEtat;
     val recherche by viewmodel.searchTextEtat;
+    val rechercheOK by viewmodel._searchTextEtatRecherche;
     var topBottom: Dp = 0.dp;
     var taille: Modifier = Modifier;
 
@@ -77,7 +78,7 @@ fun TousLesFilms(navController: NavController,
             }
         }
         SearchClickEtat.OPENED -> {
-            if(recherche.isNotEmpty()){
+            if(recherche.isNotEmpty() && rechercheOK){
                 viewmodel.getFilmsSearch(recherche);
             }
             if(nbColonne == 3) {

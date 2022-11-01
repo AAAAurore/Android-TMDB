@@ -141,6 +141,9 @@ class MainViewModel : ViewModel() {
     val _searchTextEtat: MutableState<String> = mutableStateOf(value = "");
     val searchTextEtat: State<String> = _searchTextEtat;
 
+    val _searchTextEtatRecherche: MutableState<Boolean> = mutableStateOf(value = false);
+    val searchTextEtatRecherche: State<Boolean> = _searchTextEtatRecherche;
+
     val _filmFilmSerieActeurClickEtat: MutableState<FilmSerieActeurClickEtat> = mutableStateOf(value = FilmSerieActeurClickEtat.NO);
     val filmSerieActeurClickEtat: State<FilmSerieActeurClickEtat> = _filmFilmSerieActeurClickEtat;
 
@@ -157,8 +160,9 @@ class MainViewModel : ViewModel() {
         _searchClickEtat.value = newEtat;
     }
 
-    fun updateSearchTextEtat(newText: String){
+    fun updateSearchTextEtat(newText: String, recherche: Boolean){
         _searchTextEtat.value = newText;
+        _searchTextEtatRecherche.value = recherche;
     }
 
     fun updateFilmSerieActeurClickEtat(page: String?){
