@@ -59,7 +59,7 @@ fun ToutesLesSeries(navController: NavController,
     val series by viewmodel.tvs.collectAsState();
     val rechercheEtat by viewmodel.searchClickEtat;
     val recherche by viewmodel.searchTextEtat;
-    val rechercheOK by viewmodel._searchTextEtatRecherche;
+    val rechercheOK by viewmodel.searchTextEtatRecherche;
     var topBottom: Dp = 0.dp;
     var taille: Modifier = Modifier;
 

@@ -59,7 +59,7 @@ fun TousLesFilms(navController: NavController,
     val films by viewmodel.movies.collectAsState();
     val rechercheEtat by viewmodel.searchClickEtat;
     val recherche by viewmodel.searchTextEtat;
-    val rechercheOK by viewmodel._searchTextEtatRecherche;
+    val rechercheOK by viewmodel.searchTextEtatRecherche;
     var topBottom: Dp = 0.dp;
     var taille: Modifier = Modifier;
 
