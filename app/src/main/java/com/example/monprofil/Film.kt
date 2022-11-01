@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.flowlayout.FlowRow
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
@@ -68,7 +70,6 @@ fun DescriptionFilm(navController: NavController,
     val backdrop = "https://image.tmdb.org/t/p/w500" + film.backdrop_path;
     val poster = "https://image.tmdb.org/t/p/w500" + film.poster_path;
     val acteursFilm by viewmodel.creditsMovie.collectAsState();
-    val date by viewmodel.dateFilmSerie;
 
     viewmodel.getFilm(idFilm);
 
@@ -115,10 +116,20 @@ fun DescriptionFilm(navController: NavController,
                 };
             }
             Column() {
-                Text(text = date,
-                    color = Color.Gray
-                );
-                Spacer(modifier = Modifier.size(5.dp));
+                Spacer(modifier = Modifier.size(5.dp))
+                if(film.release_date != null){
+                    val date = try{
+                        val dateF = SimpleDateFormat("yyyy-MM-dd").parse(film.release_date);
+                        DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateF);
+                    }
+                    catch(e : java.lang.Exception){
+                        film.release_date
+                    }
+                    Text(text = date,
+                        color = Color.Gray
+                    );
+                    Spacer(modifier = Modifier.size(5.dp))
+                }
                 ListeGenres(film);
             }
         }

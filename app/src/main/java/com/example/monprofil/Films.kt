@@ -103,7 +103,6 @@ fun TousLesFilms(navController: NavController,
                 elevation = topBottom,
                 onClick = {
                     viewmodel.updateFilm(film.id);
-                    viewmodel.updateDateFilmSerie(formatDate);
                     viewmodel.updateFilmSerieActeurClickEtat("film")
                     navController.navigate("film");
                 }

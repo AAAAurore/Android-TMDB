@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.flowlayout.FlowRow
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
@@ -68,7 +70,6 @@ fun DescriptionSerie(navController: NavController,
     val backdrop = "https://image.tmdb.org/t/p/w500" + serie.backdrop_path;
     val poster = "https://image.tmdb.org/t/p/w500" + serie.poster_path;
     val acteursSerie by viewmodel.creditsTv.collectAsState();
-    val date by viewmodel.dateFilmSerie;
 
     viewmodel.getSerie(idSerie);
 
@@ -115,10 +116,20 @@ fun DescriptionSerie(navController: NavController,
                 };
             }
             Column() {
-                Text(text = date,
-                    color = Color.Gray
-                );
-                Spacer(modifier = Modifier.size(5.dp));
+                Spacer(modifier = Modifier.size(5.dp))
+                if(serie.first_air_date != null){
+                    val date = try{
+                        val dateS = SimpleDateFormat("yyyy-MM-dd").parse(serie.first_air_date);
+                        DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateS);
+                    }
+                    catch(e : java.lang.Exception){
+                        serie.first_air_date
+                    }
+                    Text(text = date,
+                        color = Color.Gray
+                    );
+                    Spacer(modifier = Modifier.size(5.dp))
+                }
                 ListeGenres(serie);
             }
         }

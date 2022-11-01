@@ -21,6 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun Acteur(navController: NavController,
@@ -79,9 +82,6 @@ fun DescriptionActeur(viewmodel: MainViewModel,
         if(departement == "Writing")  departement = "Écriture";
     }
 
-    val dateNaissance = acteur.birthday;
-    val dateDeces = acteur.deathday;
-
     viewmodel.getActeur(idActeur);
 
     if(nbColonne == 3) {
@@ -135,10 +135,15 @@ fun DescriptionActeur(viewmodel: MainViewModel,
         ListeAussiConnuComme(acteur, genre);
         Spacer(modifier = Modifier.size(10.dp));
         if(acteur.birthday != null || acteur.place_of_birth != null){
-            /*//La date fait crasher l'application
-            val dateN = SimpleDateFormat("yyyy-MM-dd").parse(acteur.birthday);
-            val dateNaissance = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateN);*/
-            Text(text = debutNe +
+            val dateNaissance = try{
+                val dateN = SimpleDateFormat("yyyy-MM-dd").parse(acteur.birthday);
+                DateFormat.getDateInstance(DateFormat.LONG, Locale.FRANCE).format(dateN);
+            }
+            catch(e : java.lang.Exception){
+                acteur.birthday
+            }
+
+                Text(text = debutNe +
                     buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(fontStyle = FontStyle.Italic
@@ -159,9 +164,14 @@ fun DescriptionActeur(viewmodel: MainViewModel,
             Spacer(modifier = Modifier.size(10.dp));
         }
         if(acteur.deathday != null) {
-            /*//La date fait crasher l'application
-            val dateD = SimpleDateFormat("yyyy-MM-dd").parse(acteur.deathday);
-            val dateDeces = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(dateD);*/
+            val dateDeces = try{
+                val dateD = SimpleDateFormat("yyyy-MM-dd").parse(acteur.birthday);
+                DateFormat.getDateInstance(DateFormat.LONG, Locale.FRANCE).format(dateD);
+            }
+            catch(e : java.lang.Exception){
+                acteur.deathday
+            }
+
             Text(
                 text = debutDecede + dateDeces,
                 textAlign = TextAlign.Center

@@ -141,9 +141,6 @@ class MainViewModel : ViewModel() {
     val _searchTextEtat: MutableState<String> = mutableStateOf(value = "");
     val searchTextEtat: State<String> = _searchTextEtat;
 
-    val _dateFilmSerie: MutableState<String> = mutableStateOf(value = "");
-    val dateFilmSerie: State<String> = _dateFilmSerie;
-
     val _filmFilmSerieActeurClickEtat: MutableState<FilmSerieActeurClickEtat> = mutableStateOf(value = FilmSerieActeurClickEtat.NO);
     val filmSerieActeurClickEtat: State<FilmSerieActeurClickEtat> = _filmFilmSerieActeurClickEtat;
 
@@ -162,12 +159,6 @@ class MainViewModel : ViewModel() {
 
     fun updateSearchTextEtat(newText: String){
         _searchTextEtat.value = newText;
-    }
-
-    fun updateDateFilmSerie(newDate: String?){
-        if (newDate != null) {
-            _dateFilmSerie.value = newDate
-        }
     }
 
     fun updateFilmSerieActeurClickEtat(page: String?){
