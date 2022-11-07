@@ -14,6 +14,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -26,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
@@ -198,12 +200,15 @@ fun TopBarRetour(onClickReturnPage: () -> Unit
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TopBarSearch( text: String,
                   onTextChange: (String) -> Unit,
                   onClickClose: () -> Unit,
                   onClickSearch: (String) -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current;
+
     TopAppBar(){
         TextField(modifier = Modifier.fillMaxWidth(),
             value = text,
@@ -238,7 +243,7 @@ fun TopBarSearch( text: String,
                 }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onSearch = { onClickSearch(text); }),
+            keyboardActions = KeyboardActions(onSearch = { onClickSearch(text); keyboardController?.hide(); }),
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent)
         );
     }
